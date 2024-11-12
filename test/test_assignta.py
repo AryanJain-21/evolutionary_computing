@@ -13,26 +13,26 @@ import pandas as pd
 
 @pytest.fixture
 def A():
-    df = pd.read_csv('test1.csv', header=None)
+    df = pd.read_csv('test/test1.csv', header=None)
     return df.values.tolist()
 
 @pytest.fixture
 def B():
-    df = pd.read_csv('test2.csv', header=None)
+    df = pd.read_csv('test/test2.csv', header=None)
     return df.values.tolist()
 
 @pytest.fixture
 def C():
-    df = pd.read_csv('test3.csv', header=None)
+    df = pd.read_csv('test/test3.csv', header=None)
     return df.values.tolist()
 
 @pytest.fixture
 def sections():
-    return pd.read_csv('sections.csv')
+    return pd.read_csv('data/sections.csv')
 
 @pytest.fixture
 def tas():
-    return pd.read_csv("tas.csv")
+    return pd.read_csv("data/tas.csv")
 
 
 def test_allocation(A, B, C, tas):

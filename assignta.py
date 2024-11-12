@@ -21,8 +21,7 @@ def conflicts(A, sections):
 
     for i, j in L:
         D[i].append(j)
-    
-    
+
 
 
 
@@ -36,9 +35,9 @@ def non_perferable():
 
 def main():
 
-    sections = pd.read_csv('sections.csv')
+    sections = pd.read_csv('data/sections.csv')
     print(sections)
-    tas = pd.read_csv("tas.csv")
+    tas = pd.read_csv("data/tas.csv")
     print(tas)
 
     E = Evo()
@@ -46,7 +45,7 @@ def main():
 
     #allocation(array, tas)
 
-    df = pd.read_csv('test1.csv', header=None)
+    df = pd.read_csv('test/test1.csv', header=None)
     array = df.values.tolist()
 
     conflicts(array, sections)
