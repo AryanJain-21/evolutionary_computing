@@ -7,7 +7,6 @@ from collections import defaultdict
 import time
 
 
-
 def profile(f):
     """ Convenience function to make decorator tags simpler:
         e.g. @profile instead of @Profiler.profile """
