@@ -3,7 +3,6 @@ assignta.py: An evolutionary computing framework.
 """
 
 from evo import Evo
-import random as rnd
 import numpy as np
 import pandas as pd
 
@@ -13,8 +12,9 @@ def allocation(A, tas):
     return sum([sums[i] > tas.at[i, 'max_assigned'] for i in range(len(sums))])
 
 
-def conflicts():
-    pass
+def conflicts(A, sections):
+    
+    sum([x - y for x, y in zip(A, A[1:])  if y < x])
 
 def undersupport():
     pass
