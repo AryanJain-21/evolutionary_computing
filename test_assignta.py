@@ -13,30 +13,25 @@ import pandas as pd
 
 @pytest.fixture
 def A():
-
     df = pd.read_csv('test1.csv', header=None)
     return df.values.tolist()
 
 @pytest.fixture
 def B():
-
     df = pd.read_csv('test2.csv', header=None)
     return df.values.tolist()
 
 @pytest.fixture
 def C():
-
     df = pd.read_csv('test3.csv', header=None)
     return df.values.tolist()
 
 @pytest.fixture
 def sections():
-
     return pd.read_csv('sections.csv')
 
 @pytest.fixture
 def tas():
-
     return pd.read_csv("tas.csv")
 
 
@@ -46,12 +41,13 @@ def test_allocation(A, B, C, tas):
     assert allocation(B, tas) == 41, "Expected 41, but got a different output."
     assert allocation(C, tas) == 23, "Expected 23, but got a different output."
 
-"""
-def test_conflicts(sample_assign):
-    
-    result = conflicts()
-    assert isinstance(result, int), "Expected an integer count of conflicts."
 
+def test_conflicts(A, B, C, sections):
+    
+    conflicts(A, sections)
+    #assert isinstance(result, int), "Expected an integer count of conflicts."
+
+"""
 def test_undersupport(sample_assign):
    
     result = undersupport()

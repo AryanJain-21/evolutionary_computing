@@ -14,7 +14,8 @@ def allocation(A, tas):
 
 def conflicts(A, sections):
     
-    sum([x - y for x, y in zip(A, A[1:])  if y < x])
+    L = [(i, j) for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1]
+    
 
 def undersupport():
     pass
@@ -32,10 +33,12 @@ def main():
     E = Evo()
     assign = np.random.randint(2, size=(43, 17))
 
-    array = np.zeros((43, 17), dtype=int)
-    array[0] = 1
+    #allocation(array, tas)
 
-    allocation(array, tas)
+    df = pd.read_csv('test1.csv', header=None)
+    array = df.values.tolist()
+
+    conflicts(array, sections)
 
     E.add_solution(assign)
 
