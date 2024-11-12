@@ -9,6 +9,7 @@ python -m pytest -v --cov --cov-report term-missing
 from assignta import *
 import numpy as np
 import pytest
+import pandas as pd
 
 @pytest.fixture
 def sample_assign():
@@ -18,12 +19,23 @@ def sample_assign():
 
     return array
 
-def test_allocation(sample_assign):
+@pytest.fixture
+def sections():
+
+    return pd.read_csv('sections.csv')
+
+@pytest.fixture
+def tas():
+
+    return pd.read_csv("tas.csv")
+
+
+def test_allocation(sample_assign, tas):
     
-    result = allocation()
-    assert result is None, "Expected None, but got a different output."
+    result = allocation(sample_assign, tas)
+    assert result == 1, "Expected 1, but got a different output."
 
-
+"""
 def test_conflicts(sample_assign):
     
     result = conflicts()
@@ -42,3 +54,4 @@ def test_non_perferable(sample_assign):
 
 
 
+"""
