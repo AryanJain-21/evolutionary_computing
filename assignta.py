@@ -9,7 +9,7 @@ import pandas as pd
 def allocation(A, tas):
     
     sums = [sum(TA) for TA in A]
-    return sum([sums[i] > tas.at[i, 'max_assigned'] for i in range(len(sums))])
+    return sum([sums[i] - tas.at[i, 'max_assigned'] for i in range(len(sums)) if sums[i] > tas.at[i, 'max_assigned']])
 
 
 def conflicts(A, sections):
@@ -38,5 +38,7 @@ def main():
     allocation(array, tas)
 
     E.add_solution(assign)
+
+
 
 main()

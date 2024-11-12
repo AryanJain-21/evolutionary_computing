@@ -12,12 +12,22 @@ import pytest
 import pandas as pd
 
 @pytest.fixture
-def sample_assign():
+def A():
 
-    array = np.zeros((43, 17), dtype=int)
-    array[0] = 1
+    df = pd.read_csv('test1.csv', header=None)
+    return df.values.tolist()
 
-    return array
+@pytest.fixture
+def B():
+
+    df = pd.read_csv('test2.csv', header=None)
+    return df.values.tolist()
+
+@pytest.fixture
+def C():
+
+    df = pd.read_csv('test3.csv', header=None)
+    return df.values.tolist()
 
 @pytest.fixture
 def sections():
@@ -30,10 +40,11 @@ def tas():
     return pd.read_csv("tas.csv")
 
 
-def test_allocation(sample_assign, tas):
+def test_allocation(A, B, C, tas):
     
-    result = allocation(sample_assign, tas)
-    assert result == 1, "Expected 1, but got a different output."
+    assert allocation(A, tas) == 37, "Expected 37, but got a different output."
+    assert allocation(B, tas) == 41, "Expected 41, but got a different output."
+    assert allocation(C, tas) == 23, "Expected 23, but got a different output."
 
 """
 def test_conflicts(sample_assign):
