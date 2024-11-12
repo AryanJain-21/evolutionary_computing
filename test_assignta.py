@@ -6,7 +6,7 @@ python -m pytest -v --cov --cov-report term-missing
 
 """
 
-from assignta import allocation, conflicts, undersupport, non_perferable
+from assignta import *
 import numpy as np
 import pytest
 
