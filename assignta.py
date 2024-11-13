@@ -7,13 +7,16 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict
 
-def allocation(A, tas):
+sections = pd.read_csv('data/sections.csv')
+tas = pd.read_csv("data/tas.csv")
+
+def allocation(A):
     
     sums = [sum(TA) for TA in A]
     return sum([sums[i] - tas.at[i, 'max_assigned'] for i in range(len(sums)) if sums[i] > tas.at[i, 'max_assigned']])
 
 
-def conflicts(A, sections):
+def conflicts(A):
 
     D = defaultdict(list)
     
@@ -26,26 +29,21 @@ def conflicts(A, sections):
     return sum([len(set(sections.loc[indexes, 'daytime'])) != len(indexes) for _, indexes in D.items()])
 
 
-def undersupport(A, sections):
+def undersupport(A):
 
     return sum([max(0, sections.loc[i, "min_ta"] - sum(ta[i] for ta in A)) for i in range(len(A[1]))])
     
-
-
-def unwilling(A, tas):
+def unwilling(A):
 
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'U'])
 
-def unpreferred(A, tas):
+def unpreferred(A):
 
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
-def main():
 
-    sections = pd.read_csv('data/sections.csv')
-    #print(sections)
-    tas = pd.read_csv("data/tas.csv")
-    #print(tas)
+
+def main():
 
     E = Evo()
 
