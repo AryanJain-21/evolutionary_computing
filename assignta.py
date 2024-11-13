@@ -46,12 +46,13 @@ def unpreferred(A):
 
 
 def crossover(solutions):
+    
     """Combine two parent solutions using single-point crossover"""
-    parent1, parent2 = solutions  # Two solutions required
+
+    parent1, parent2 = solutions  
     rows, cols = len(parent1), len(parent1[0])
     crossover_point = rnd.randint(0, rows - 1)
 
-    # Create a child by combining rows from both parents
     child = [parent1[i] if i <= crossover_point else parent2[i] for i in range(rows)]
     return child
 
