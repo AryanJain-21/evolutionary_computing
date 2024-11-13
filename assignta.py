@@ -32,8 +32,9 @@ def undersupport(A, sections):
     
 
 
-def non_perferable():
-    pass
+def non_perferable(A, tas):
+
+    return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] != 'P'])
 
 def main():
 

@@ -55,13 +55,10 @@ def test_undersupport(A, B, C, sections):
     assert undersupport(B, sections) == 0, "Expected 0, but got a different output."
     assert undersupport(C, sections) == 7, "Expected 7, but got a different output."
 
-"""
-def test_non_perferable(sample_assign):
+
+def test_non_perferable(A, B, C, tas):
     
-    result = non_perferable()
-    assert isinstance(result, int), "Expected an integer count of non-preferable assignments."
+    assert non_perferable(A, tas) == 68, "Expected 68, but got a different output."
+    assert non_perferable(B, tas) == 77, "Expected 77, but got a different output."
+    assert non_perferable(C, tas) == 53, "Expected 53, but got a different output."
 
-
-
-
-"""
