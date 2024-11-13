@@ -56,9 +56,15 @@ def test_undersupport(A, B, C, sections):
     assert undersupport(C, sections) == 7, "Expected 7, but got a different output."
 
 
-def test_non_perferable(A, B, C, tas):
+def test_unwilling(A, B, C, tas):
     
-    assert non_perferable(A, tas) == 68, "Expected 68, but got a different output."
-    assert non_perferable(B, tas) == 77, "Expected 77, but got a different output."
-    assert non_perferable(C, tas) == 53, "Expected 53, but got a different output."
+    assert unwilling(A, tas) == 53, "Expected 53, but got a different output."
+    assert unwilling(B, tas) == 58, "Expected 58, but got a different output."
+    assert unwilling(C, tas) == 43, "Expected 43, but got a different output."
+
+def test_unpreferred(A, B, C, tas):
+    
+    assert unpreferred(A, tas) == 15, "Expected 15, but got a different output."
+    assert unpreferred(B, tas) == 19, "Expected 19, but got a different output."
+    assert unpreferred(C, tas) == 10, "Expected 10, but got a different output."
 

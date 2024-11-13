@@ -32,29 +32,34 @@ def undersupport(A, sections):
     
 
 
-def non_perferable(A, tas):
+def unwilling(A, tas):
 
-    return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] != 'P'])
+    return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'U'])
+
+def unpreferred(A, tas):
+
+    return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
 def main():
 
     sections = pd.read_csv('data/sections.csv')
-    print(sections)
+    #print(sections)
     tas = pd.read_csv("data/tas.csv")
-    print(tas)
+    #print(tas)
 
     E = Evo()
+
+    E.add_fitness_criteria("o_allocation", allocation)
+    E.add_fitness_criteria("time_conflicts", conflicts)
+    E.add_fitness_criteria("undersupport", undersupport)
+    E.add_fitness_criteria("unwilling", unwilling)
+    E.add_fitness_criteria("unpreferred", unpreferred)
+
     assign = np.random.randint(2, size=(43, 17))
-
-    #allocation(array, tas)
-
-    df = pd.read_csv('test/test1.csv', header=None)
-    array = df.values.tolist()
-
-    conflicts(array, sections)
 
     E.add_solution(assign)
 
 
 
-main()
+if __name__ == '__main__':
+    main()
