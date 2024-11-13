@@ -48,12 +48,14 @@ def test_conflicts(A, B, C, sections):
     assert conflicts(B, sections) == 5, "Expected 5, but got a different output."
     assert conflicts(C, sections) == 2, "Expected 2, but got a different output."
 
-"""
-def test_undersupport(sample_assign):
-   
-    result = undersupport()
-    assert isinstance(result, int), "Expected an integer indicating undersupport level."
 
+def test_undersupport(A, B, C, sections):
+   
+    assert undersupport(A, sections) == 1, "Expected 1, but got a different output."
+    assert undersupport(B, sections) == 0, "Expected 0, but got a different output."
+    assert undersupport(C, sections) == 7, "Expected 7, but got a different output."
+
+"""
 def test_non_perferable(sample_assign):
     
     result = non_perferable()

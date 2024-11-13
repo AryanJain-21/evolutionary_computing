@@ -23,11 +23,14 @@ def conflicts(A, sections):
         D[i].append(j)
 
     
-    return sum([len(set(sections.loc[indexes, 'daytime'])) != len(indexes) for ta, indexes in D.items()])
+    return sum([len(set(sections.loc[indexes, 'daytime'])) != len(indexes) for _, indexes in D.items()])
 
 
-def undersupport():
-    pass
+def undersupport(A, sections):
+
+    return sum([max(0, sections.loc[i, "min_ta"] - sum(ta[i] for ta in A)) for i in range(len(A[1]))])
+    
+
 
 def non_perferable():
     pass
