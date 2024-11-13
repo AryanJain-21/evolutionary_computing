@@ -22,9 +22,8 @@ def conflicts(A, sections):
     for i, j in L:
         D[i].append(j)
 
-
-
-
+    
+    return sum([len(set(sections.loc[indexes, 'daytime'])) != len(indexes) for ta, indexes in D.items()])
 
 
 def undersupport():

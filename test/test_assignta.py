@@ -44,8 +44,9 @@ def test_allocation(A, B, C, tas):
 
 def test_conflicts(A, B, C, sections):
     
-    conflicts(A, sections)
-    #assert isinstance(result, int), "Expected an integer count of conflicts."
+    assert conflicts(A, sections) == 8, "Expected 8, but got a different output."
+    assert conflicts(B, sections) == 5, "Expected 5, but got a different output."
+    assert conflicts(C, sections) == 2, "Expected 2, but got a different output."
 
 """
 def test_undersupport(sample_assign):
