@@ -45,6 +45,7 @@ def unpreferred(A):
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
 def mutation(solutions, mutation_rate=0.3):
+    """ Agent to randomly mutate solutions """
 
     sol = solutions[0]
     rows, cols = len(sol), len(sol[0])
@@ -52,6 +53,15 @@ def mutation(solutions, mutation_rate=0.3):
     mutated_sol = [[1 - sol[i][j] if rnd.random() < mutation_rate else sol[i][j] for j in range(cols)] for i in range(rows)]
 
     return mutated_sol
+
+def support(solutions):
+    """ Agent targeted to eliminate undersupport """
+
+    sol = solutions[0]
+    
+    assigned_sol = [[1 if ta in [rnd.randint(0, len(sol) - 1) for _ in range(sections.loc[j, "min_ta"])] else 0 for j in range(len(sol[0]))] for ta in range(len(sol))]
+
+    return assigned_sol
 
 
 @profile
@@ -64,6 +74,9 @@ def main():
     E.add_fitness_criteria("undersupport", undersupport)
     E.add_fitness_criteria("unwilling", unwilling)
     E.add_fitness_criteria("unpreferred", unpreferred)
+
+    E.add_agent("mutation", mutation, k=1)
+    E.add_agent("support", support, k=1)
 
 
     base_sol = [[0 for _ in range(17)] for _ in range(43)]

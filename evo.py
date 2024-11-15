@@ -89,5 +89,5 @@ class Evo:
         """ Output the solutions in the population """
         rslt = ""
         for eval, sol in self.pop.items():
-            rslt += str(eval)
+            rslt += str(eval) + "\n"
         return rslt
