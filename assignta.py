@@ -44,7 +44,7 @@ def unpreferred(A):
 
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
-def mutation(solutions, mutation_rate=0.3):
+def mutation(solutions, mutation_rate=0.1):
     """ Agent to randomly mutate solutions """
 
     sol = solutions[0]
@@ -63,6 +63,15 @@ def support(solutions):
 
     return assigned_sol
 
+def crossover(solutions):
+    """Combine two parent solutions using single-point crossover"""
+    parent1, parent2 = solutions  # Two solutions required
+    rows, cols = len(parent1), len(parent1[0])
+    crossover_point = rnd.randint(0, rows - 1)
+
+    # Create a child by combining rows from both parents
+    child = [parent1[i] if i <= crossover_point else parent2[i] for i in range(rows)]
+    return child
 
 @profile
 def main():
@@ -77,12 +86,12 @@ def main():
 
     E.add_agent("mutation", mutation, k=1)
     E.add_agent("support", support, k=1)
-
+    E.add_agent("crossover", crossover, k=2)
 
     base_sol = [[0 for _ in range(17)] for _ in range(43)]
     E.add_solution(base_sol)
 
-    E.evolve(n=10000, dom=100, status=1000)
+    E.evolve(n=10000, dom=10, status=1000)
 
     print(E)
 
