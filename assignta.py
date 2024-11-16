@@ -72,6 +72,28 @@ def crossover(solutions):
     child = [parent1[i] if i <= crossover_point else parent2[i] for i in range(rows)]
     return child
 
+def row_mutation(solutions):
+    """ Agent to mutate entire rows randomly """
+    sol = solutions[0]
+    rows, cols = len(sol), len(sol[0])
+
+    row = rnd.randint(0, rows - 1)  # Choose a random row
+    sol[row] = [rnd.randint(0, 1) for _ in range(cols)]  # Randomize the row
+
+    return sol
+
+def column_mutation(solutions):
+    """ Agent to mutate entire columns randomly """
+    sol = solutions[0]
+    rows, cols = len(sol), len(sol[0])
+
+    col = rnd.randint(0, cols - 1)  # Choose a random column
+    for i in range(rows):
+        sol[i][col] = 1 - sol[i][col]  # Flip the value
+
+    return sol
+
+
 def main():
 
     E = Evo()
@@ -83,15 +105,15 @@ def main():
     E.add_fitness_criteria("unpreferred", unpreferred)
 
     E.add_agent("mutation", mutation, k=1)
+    E.add_agent("row_mutation", mutation, k=1)
+    E.add_agent("column_mutation", mutation, k=1)
     E.add_agent("support", support, k=1)
     E.add_agent("crossover", crossover, k=2)
 
     base_sol = [[0 for _ in range(17)] for _ in range(43)]
     E.add_solution(base_sol)
 
-    E.evolve(n=100000, dom=10, status=10000, time_limit=300)
-
-    print(E)
+    E.evolve(n=100000, dom=10, status=1000, time_limit=300)
 
     
 

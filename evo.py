@@ -81,7 +81,7 @@ class Evo:
             elapsed_time = time.time() - start_time
 
             if elapsed_time > time_limit:
-        
+                print("Elapsed Time:", elapsed_time)
                 break
             
             
