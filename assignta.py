@@ -43,7 +43,7 @@ def unpreferred(A):
 
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
-def mutation(solutions, mutation_rate=0.1):
+def mutation(solutions, mutation_rate=0.3):
     """ Agent to randomly mutate solutions """
 
     sol = solutions[0]
@@ -61,6 +61,19 @@ def support(solutions):
     assigned_sol = [[1 if ta in [rnd.randint(0, len(sol) - 1) for _ in range(sections.loc[j, "min_ta"])] else 0 for j in range(len(sol[0]))] for ta in range(len(sol))]
 
     return assigned_sol
+
+def eliminate_unwanted(solutions):
+    """ Agent to eliminate unwilling and non-preferable assignments """
+    sol = solutions[0]
+
+    # Iterate over the solution matrix and set to 0 for unwanted assignments
+    adjusted_sol = [
+        [0 if (tas.loc[i, str(j)] == 'U' or tas.loc[i, str(j)] == 'W') and sol[i][j] == 1 else sol[i][j]
+         for j in range(len(sol[0]))]
+        for i in range(len(sol))
+    ]
+
+    return adjusted_sol
 
 def crossover(solutions):
     """Combine two parent solutions using single-point crossover"""
@@ -105,6 +118,7 @@ def main():
     E.add_fitness_criteria("unpreferred", unpreferred)
 
     E.add_agent("mutation", mutation, k=1)
+    E.add_agent("unwanted", eliminate_unwanted, k=1)
     E.add_agent("row_mutation", mutation, k=1)
     E.add_agent("column_mutation", mutation, k=1)
     E.add_agent("support", support, k=1)
