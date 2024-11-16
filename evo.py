@@ -67,14 +67,33 @@ class Evo:
         nds = reduce(self.reduce_nds, self.pop.keys(), self.pop.keys())
         self.pop = {k: self.pop[k] for k in nds}
 
-    def evolve(self, n=1, dom=100, status=100):
+    @profile
+    def evolve(self, n=1, dom=100, status=100, time_limit=300):
         """ Run random agents n times
         n: Number of agent invocations
         status: How frequently to output the current population"""
+
+        start_time = time.time()
+
         agent_names = list(self.agents.keys())
         for i in range(n):
+
+            elapsed_time = time.time() - start_time
+
+            if elapsed_time > time_limit:
+        
+                break
+            
+            
             pick = rnd.choice(agent_names)
+
+            agent_time = time.time()
+
             self.run_agent(pick)
+
+            agent_elapsed_time = time.time() - agent_time
+
+            Profiler._add(pick, agent_elapsed_time)
 
             if i % dom == 0:
                 self.remove_dominated()
@@ -84,8 +103,10 @@ class Evo:
                 print("Iteration: ", i)
                 print("Size     : ", len(self.pop))
                 print(self)
+                
 
         self.remove_dominated()
+        Profiler.report()
 
     def __str__(self):
         """ Output the solutions in the population """

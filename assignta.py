@@ -89,7 +89,7 @@ def main():
     base_sol = [[0 for _ in range(17)] for _ in range(43)]
     E.add_solution(base_sol)
 
-    E.evolve(n=10000, dom=10, status=1000)
+    E.evolve(n=100000, dom=10, status=10000, time_limit=300)
 
     print(E)
 
@@ -99,5 +99,3 @@ def main():
 if __name__ == '__main__':
 
     main()
-
-    Profiler.report()
