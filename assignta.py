@@ -110,11 +110,13 @@ def csv_maker(evo_object):
    """ CSV File create """
    rows = []
    group_name = "TA"
+   sol_lst = []
    for eval, sol in evo_object.pop.items():
         row = [group_name]
         for name, score in eval:
             row.append(score)
         rows.append(row)
+        sol_lst.append(sol)
         
    headers = ["groupname", "overallocation", "conflicts", "undersupport", "unwilling", "unpreferred"]
 
@@ -124,6 +126,9 @@ def csv_maker(evo_object):
         writer.writerow(headers)  # Write headers
         writer.writerows(rows)    # Write each row
 
+   with open('sol_table.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(sol_lst)
 
 
 def main():
