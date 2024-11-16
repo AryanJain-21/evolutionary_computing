@@ -146,7 +146,7 @@ def main():
     base_sol = [[0 for _ in range(17)] for _ in range(43)]
     E.add_solution(base_sol)
 
-    E.evolve(n=100000, dom=10, status=1000, time_limit=300)
+    E.evolve(n=100000, dom=100, status=1000, time_limit=300)
 
     csv_maker(E)
 
