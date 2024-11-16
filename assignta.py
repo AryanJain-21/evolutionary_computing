@@ -6,7 +6,7 @@ from evo import Evo
 import numpy as np
 import pandas as pd
 from collections import defaultdict
-import time
+import csv
 import random as rnd
 
 sections = pd.read_csv('data/sections.csv')
@@ -106,6 +106,25 @@ def column_mutation(solutions):
 
     return sol
 
+def csv_maker(evo_object):
+   """ CSV File create """
+   rows = []
+   group_name = "TA"
+   for eval, sol in evo_object.pop.items():
+        row = [group_name]
+        for name, score in eval:
+            row.append(score)
+        rows.append(row)
+        
+   headers = ["groupname", "overallocation", "conflicts", "undersupport", "unwilling", "unpreferred"]
+
+
+   with open('summary_table.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(headers)  # Write headers
+        writer.writerows(rows)    # Write each row
+
+
 
 def main():
 
@@ -128,6 +147,8 @@ def main():
     E.add_solution(base_sol)
 
     E.evolve(n=100000, dom=10, status=1000, time_limit=300)
+
+    csv_maker(E)
 
     
 
