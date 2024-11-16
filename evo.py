@@ -6,6 +6,8 @@ import random as rnd
 import copy
 from functools import reduce
 import numpy as np
+from profiler import profile, Profiler
+import time
 
 class Evo:
 

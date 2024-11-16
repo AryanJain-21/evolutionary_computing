@@ -6,7 +6,6 @@ from evo import Evo
 import numpy as np
 import pandas as pd
 from collections import defaultdict
-from profiler import profile, Profiler
 import time
 import random as rnd
 
@@ -73,7 +72,6 @@ def crossover(solutions):
     child = [parent1[i] if i <= crossover_point else parent2[i] for i in range(rows)]
     return child
 
-@profile
 def main():
 
     E = Evo()
