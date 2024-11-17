@@ -68,7 +68,7 @@ def eliminate_unwanted(solutions):
 
     # Iterate over the solution matrix and set to 0 for unwanted assignments
     adjusted_sol = [
-        [0 if (tas.loc[i, str(j)] == 'U' or tas.loc[i, str(j)] == 'W') and sol[i][j] == 1 else sol[i][j]
+        [0 if (tas.loc[i, str(j)] == 'U') and sol[i][j] == 1 else sol[i][j]
          for j in range(len(sol[0]))]
         for i in range(len(sol))
     ]
