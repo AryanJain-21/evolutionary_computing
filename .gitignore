@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 
 .coverage
-evo_state.pkl
 
 .DS_Store
 
