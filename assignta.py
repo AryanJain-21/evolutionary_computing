@@ -43,7 +43,7 @@ def unpreferred(A):
 
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
-def mutation(solutions, mutation_rate=0.45):
+def mutation(solutions, mutation_rate=0.3):
     """ Agent to randomly mutate solutions """
 
     sol = solutions[0]
@@ -68,12 +68,46 @@ def eliminate_unwanted(solutions):
 
     # Iterate over the solution matrix and set to 0 for unwanted assignments
     adjusted_sol = [
-        [0 if (tas.loc[i, str(j)] == 'U') and sol[i][j] == 1 else sol[i][j]
+        [0 if (tas.loc[i, str(j)] == 'U' or tas.loc[i, str(j)] == 'W') and sol[i][j] == 1 else sol[i][j]
          for j in range(len(sol[0]))]
         for i in range(len(sol))
     ]
 
     return adjusted_sol
+
+def eliminate_overallocation(solutions):
+    """
+    Agent that reduces overallocation penalties by ensuring the number of assignments
+    for each TA does not exceed their max_assigned limit.
+    
+    Args:
+        solutions (list): List of solution matrices (we process the first one).
+        tas (DataFrame): DataFrame containing TA constraints, with a 'max_assigned' column.
+    
+    Returns:
+        sol (list): Updated solution matrix with reduced overallocation.
+    """
+    sol = solutions[0]  # Single solution input
+    rows, cols = len(sol), len(sol[0])
+    
+    for i in range(rows):
+        # Count the current number of assignments for the TA
+        current_assignments = sum(sol[i])
+        
+        # Check if this exceeds the TA's max_assigned
+        max_assignments = tas.at[i, "max_assigned"]
+        if current_assignments > max_assignments:
+            # Calculate how many assignments need to be removed
+            excess = current_assignments - max_assignments
+            
+            # Randomly remove excess assignments
+            assigned_indices = [j for j in range(cols) if sol[i][j] == 1]
+            indices_to_remove = rnd.sample(assigned_indices, excess)
+            for j in indices_to_remove:
+                sol[i][j] = 0
+
+    return sol
+
 
 def crossover(solutions):
     """Combine two parent solutions using single-point crossover"""
@@ -174,6 +208,7 @@ def main():
 
     E.add_agent("mutation", mutation, k=1)
     E.add_agent("unwanted", eliminate_unwanted, k=1)
+    E.add_agent("allocation", eliminate_overallocation, k=1)
     E.add_agent("row_mutation", mutation, k=1)
     E.add_agent("column_mutation", mutation, k=1)
     E.add_agent("support", support, k=1)
