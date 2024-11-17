@@ -188,8 +188,8 @@ def csv_maker(evo_object):
 
    with open('summary_table.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(headers)  # Write headers
-        writer.writerows(rows)    # Write each row
+        writer.writerow(headers)
+        writer.writerows(rows)
 
    with open('sol_table.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
