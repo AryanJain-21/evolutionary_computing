@@ -171,10 +171,40 @@ def ensure_nonzero(solutions):
 
     return sol
 
+def reassign_unwilling(solutions):
+    """
+    Agent to reassign TAs from sections they are unwilling ('U') to other random sections
+    that they are not unwilling ('U').
+
+    Args:
+        solutions (list): List of solution matrices (we process the first one).
+        tas (DataFrame): DataFrame containing TA preferences, with 'U' marking unwilling sections.
+    
+    Returns:
+        sol (list): Updated solution matrix with unwilling assignments reassigned.
+    """
+    sol = solutions[0]  # Single solution input
+    rows, cols = len(sol), len(sol[0])
+
+    for i in range(rows):  # Iterate through each TA
+        for j in range(cols):  # Iterate through each section
+            if sol[i][j] == 1 and tas.loc[i, str(j)] == 'U':  # Check if assigned to an unwilling section
+                # Find all sections this TA is willing to be assigned to
+                eligible_sections = [k for k in range(cols) if tas.loc[i, str(k)] != 'U' and sol[i][k] == 0]
+                if eligible_sections:
+                    # Choose a random section from the eligible ones
+                    new_section = rnd.choice(eligible_sections)
+                    # Move the assignment
+                    sol[i][j] = 0  # Remove from unwilling section
+                    sol[i][new_section] = 1  # Assign to the new section
+
+    return sol
+
+
 def csv_maker(evo_object):
    """ CSV File create """
    rows = []
-   group_name = "AandC"
+   group_name = "AC"
    sol_lst = []
    for eval, sol in evo_object.pop.items():
         row = [group_name]
@@ -207,6 +237,7 @@ def main():
     E.add_fitness_criteria("unpreferred", unpreferred)
 
     E.add_agent("mutation", mutation, k=1)
+    E.add_agent("reassign_unwilling", reassign_unwilling, k=1)
     E.add_agent("unwanted", eliminate_unwanted, k=1)
     E.add_agent("allocation", eliminate_overallocation, k=1)
     E.add_agent("row_mutation", mutation, k=1)
