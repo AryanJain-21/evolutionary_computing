@@ -186,12 +186,12 @@ def csv_maker(evo_object):
    headers = ["groupname", "overallocation", "conflicts", "undersupport", "unwilling", "unpreferred"]
 
 
-   with open('summary_table.csv', mode='w', newline='') as file:
+   with open('solutions/summary_table.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(headers)
         writer.writerows(rows)
 
-   with open('sol_table.csv', mode='w', newline='') as file:
+   with open('solutions/sol_table.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(sol_lst)
 
