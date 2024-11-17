@@ -174,7 +174,7 @@ def ensure_nonzero(solutions):
 def csv_maker(evo_object):
    """ CSV File create """
    rows = []
-   group_name = "TA"
+   group_name = "AandC"
    sol_lst = []
    for eval, sol in evo_object.pop.items():
         row = [group_name]
