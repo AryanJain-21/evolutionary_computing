@@ -1,7 +1,6 @@
 """
-
 evo.py: An evolutionary computing framework.
-
+Date: November 16, 2024
 """
 
 import random as rnd
@@ -82,6 +81,7 @@ class Evo:
 
             elapsed_time = time.time() - start_time
 
+            # Stops after given time
             if elapsed_time > time_limit:
                 print("Elapsed Time:", elapsed_time)
                 break
