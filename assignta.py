@@ -43,7 +43,7 @@ def unpreferred(A):
 
     return sum([A[i][j] for i in range(len(A)) for j in range(len(A[i])) if A[i][j] == 1 and tas.loc[i, str(j)] == 'W'])
 
-def mutation(solutions, mutation_rate=0.3):
+def mutation(solutions, mutation_rate=0.45):
     """ Agent to randomly mutate solutions """
 
     sol = solutions[0]
@@ -106,6 +106,37 @@ def column_mutation(solutions):
 
     return sol
 
+def ensure_nonzero(solutions):
+    """
+    Agent that ensures no row in the solution matrix has all zeros,
+    but skips rows for TAs with max_assigned = 0 in the tas.csv file.
+    
+    Args:
+        solutions (list): List of solution matrices (we process the first one).
+        tas (DataFrame): DataFrame containing TA constraints, with a 'max_assigned' column.
+    
+    Returns:
+        sol (list): Updated solution matrix.
+    """
+    sol = solutions[0]  # Single solution input
+    rows, cols = len(sol), len(sol[0])
+    
+    for i in range(rows):
+        # Skip if the corresponding TA has max_assigned = 0
+        if tas.loc[i, "max_assigned"] == 0:
+            continue
+        
+        # Check if the row has all zeros
+        if all(cell == 0 for cell in sol[i]):
+            # Decide randomly to add 1 or 2 ones
+            num_ones = rnd.choice([1, 2])
+            # Pick random unique columns to add the ones
+            columns_to_modify = rnd.sample(range(cols), num_ones)
+            for col in columns_to_modify:
+                sol[i][col] = 1
+
+    return sol
+
 def csv_maker(evo_object):
    """ CSV File create """
    rows = []
@@ -147,6 +178,7 @@ def main():
     E.add_agent("column_mutation", mutation, k=1)
     E.add_agent("support", support, k=1)
     E.add_agent("crossover", crossover, k=2)
+    E.add_agent("noassignments", ensure_nonzero, k=1)
 
     base_sol = [[0 for _ in range(17)] for _ in range(43)]
     E.add_solution(base_sol)
