@@ -1,0 +1,25 @@
+=================================================== test session starts ===================================================
+platform darwin -- Python 3.12.4, pytest-7.4.4, pluggy-1.0.0 -- /Users/aryn/anaconda3/envs/ds/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aryn/Documents/Courses/DS3500/evolutionary_computing
+plugins: cov-4.1.0, anyio-4.6.2
+collected 5 items                                                                                                         
+
+test/test_assignta.py::test_allocation PASSED                                                                       [ 20%]
+test/test_assignta.py::test_conflicts PASSED                                                                        [ 40%]
+test/test_assignta.py::test_undersupport PASSED                                                                     [ 60%]
+test/test_assignta.py::test_unwilling PASSED                                                                        [ 80%]
+test/test_assignta.py::test_unpreferred PASSED                                                                      [100%]
+
+---------- coverage: platform darwin, python 3.12.4-final-0 ----------
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+assignta.py               132     97    27%   49-54, 59-63, 67-76, 90-109, 114-120, 124-130, 134-141, 155-172, 186-201, 206-226, 231-254, 261
+evo.py                     66     47    29%   17-19, 24, 31, 36-37, 41-46, 50-53, 60-63, 66, 69-70, 78-111, 115-118
+profiler.py                27     12    56%   24-25, 31-36, 42-45
+test/test_assignta.py      45      0   100%
+-----------------------------------------------------
+TOTAL                     270    156    42%
+
+
+==================================================== 5 passed in 0.86s ====================================================
